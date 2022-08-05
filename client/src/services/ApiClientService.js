@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3001';
+const baseUrl = 'http://localhost:3080';
 
 async function getJobs(user) {
   try {
@@ -15,14 +15,17 @@ async function getJobs(user) {
 
 async function addJob(data, user) {
   try {
-    await fetch(`${baseUrl}/jobs/${data.userId}`, {
+    const newJob = await fetch(`${baseUrl}/jobs/${data.userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + user.accessToken,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data),  
     });
+    const response = await newJob.json();
+    return response;
+
   } catch (error) {
     console.log('POST request error', error);
   }

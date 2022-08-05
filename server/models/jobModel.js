@@ -11,7 +11,10 @@ const getAll = async function (userId) {
 
 const setOne = async function (job) {
   try {
-    return await JobModel.create(job);
+
+    const createRes = await JobModel.create(job);
+    // console.log("RESPONSE FROM DB: ",createRes);
+    return createRes;
   } catch (error) {
     console.log('Error in setOne (create):', error);
   }

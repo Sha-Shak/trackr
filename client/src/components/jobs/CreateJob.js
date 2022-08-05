@@ -32,8 +32,9 @@ function CreateJob({ setJobs }) {
       date_added: new Date().toDateString(),
     };
 
-    await ApiClientService.addJob(data, currentUser);
-    setJobs((prev) => [...prev, data]);
+    const newJob = await ApiClientService.addJob(data, currentUser);
+    console.log("response is : ",newJob)
+    setJobs((prev) => [...prev, newJob]);
     event.target.reset();
     navigate('/');
   }

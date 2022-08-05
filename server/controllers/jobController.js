@@ -12,8 +12,9 @@ const getJobs = async (req, res) => {
 
 const createNewJob = async (req, res) => {
   try {
-    await jobModel.setOne(req.body);
-    res.status(201).send('ok');
+    const newJob = await jobModel.setOne(req.body);
+    console.log("object", newJob);
+    res.status(201).send(newJob);
   } catch (error) {
     console.log('Error in createNewJob', error);
     res.status(500);
