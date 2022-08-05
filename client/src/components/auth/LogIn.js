@@ -32,7 +32,6 @@ function LogIn() {
 
     setLoading(false);
   }
-  
   return (
     <>
       <div className='logo-text'> Trackr</div>
@@ -50,8 +49,7 @@ function LogIn() {
               ref={emailRef}
               className='form-input'
               autoComplete='off'
-              placeholder='Email'
-
+              required
             />
           </fieldset>
           <fieldset>
@@ -62,13 +60,12 @@ function LogIn() {
               type='password'
               id='password'
               className='form-input'
-              placeholder='Password'
-
+              required
               ref={passwordRef}
             />
           </fieldset>
 
-          <button className='btn btn-login' disabled={loading} role='button'>
+          <button className='btn btn-login' disabled={loading}>
             Log In
           </button>
         </form>

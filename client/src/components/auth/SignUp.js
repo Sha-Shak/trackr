@@ -7,14 +7,14 @@ function SignUp() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const { signup, currentUser } = useAuth();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
-      navigate('/');
+      //navigate('/');
     }
   }, []);
 
@@ -29,7 +29,7 @@ function SignUp() {
       setError('');
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
-      navigate('/');
+      //navigate('/');
     } catch (e) {
       console.log(e);
       setError('Failed to create an account');
@@ -41,7 +41,7 @@ function SignUp() {
     <>
       <div className='logo-text'> Trackr</div>
       <section className='login-container purple'>
-        <p>{error}</p>
+        <p role='error'>{error}</p>
         <h2 className='white-text slim'>Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -89,9 +89,9 @@ function SignUp() {
         <p className='login-option'>
           Already registered?
           <span>
-            <Link className='login-link' to='/login'>
+            {/* <Link className='login-link' to='/login'>
               Login
-            </Link>
+            </Link> */}
           </span>
         </p>
       </section>
