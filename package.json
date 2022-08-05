@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Keval-P21/trackr#readme",
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

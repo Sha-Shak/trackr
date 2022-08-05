@@ -6,14 +6,14 @@ function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login, currentUser } = useAuth();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
-      navigate('/');
+      //navigate('/');
     }
   }, []);
 
@@ -24,7 +24,7 @@ function LogIn() {
       setError('');
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate('/');
+      //navigate('/');
     } catch (e) {
       console.log(e);
       setError('Log in failed');
@@ -32,6 +32,7 @@ function LogIn() {
 
     setLoading(false);
   }
+  
   return (
     <>
       <div className='logo-text'> Trackr</div>
@@ -49,7 +50,8 @@ function LogIn() {
               ref={emailRef}
               className='form-input'
               autoComplete='off'
-              required
+              placeholder='Email'
+
             />
           </fieldset>
           <fieldset>
@@ -60,21 +62,22 @@ function LogIn() {
               type='password'
               id='password'
               className='form-input'
-              required
+              placeholder='Password'
+
               ref={passwordRef}
             />
           </fieldset>
 
-          <button className='btn btn-login' disabled={loading}>
+          <button className='btn btn-login' disabled={loading} role='button'>
             Log In
           </button>
         </form>
         <p className='login-option'>
           Not registered?
           <span>
-            <Link className='login-link' to='/signup'>
+            {/* <Link className='login-link' to='/signup'>
               Sign Up
-            </Link>
+            </Link> */}
           </span>
         </p>
       </section>
