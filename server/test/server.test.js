@@ -21,21 +21,16 @@ describe('Integration tests', () => {
   let uid = null;
   let token = null;
 
+  
 
   beforeAll(async () => {
-
-    // const testUser = await admin.auth().getUserByEmail('test@example.com');
-    // await admin.auth().deleteUser(testUser.uid);
 
     const dbURL = `mongodb://127.0.0.1:27017/${databaseName}`;
     await mongoose.connect(dbURL, {useNewUrlParser: true});
 
-    const newTestUser = await admin.auth().createUser({
-      email: 'test1@test.com',
-      password: 'testPassword',
-      displayName: 'John Doe',});
+    const testUser = await admin.auth().getUserByEmail('test@example.com');
 
-    uid = newTestUser.uid;
+    uid = testUser.uid;
 
   })
 
@@ -68,10 +63,6 @@ describe('Integration tests', () => {
     await EventModel.deleteMany();
   });
 
-  afterAll(async () => {
-    await admin.auth().deleteUser(uid);
-    uid = null;
-  })
 
 
   describe('Job Routes', () => {
