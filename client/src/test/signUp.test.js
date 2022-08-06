@@ -2,6 +2,7 @@ import SignUp from "../components/auth/SignUp";
 import { render, screen } from '@testing-library/react';
 import { toBeDisabled, toBeCalled } from '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event'; 
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 jest.mock('../components/context/AuthContext', () => ({
@@ -12,7 +13,11 @@ jest.mock('../components/context/AuthContext', () => ({
 
 it('should show error message when passwords do not match', async () => {
 
-  render(<SignUp />); 
+  render(
+    <Router>
+      <SignUp />
+    </Router>
+  ); 
   
   const emailInput = screen.getByLabelText(/Email/i);
   const passwordInput = screen.getAllByLabelText(/Password/i)[0];
