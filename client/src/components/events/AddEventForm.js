@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
-function AddEventForm({ setEvents, events, getUserEvents }) {
-  const { currentUser } = useAuth();
+function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
+  //const { currentUser } = useAuth();
   const [name, setName] = useState();
   const [description, setDescription] = useState();
   const [location, setLocation] = useState();

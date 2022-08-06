@@ -114,6 +114,7 @@ function JobDetails({
             events={events}
             getUserEvents={getUserEvents}
             setEvents={setEvents}
+            currentUser = {currentUser}
           />
         </div>
         <div className={`form-box ${data.color}`}>
