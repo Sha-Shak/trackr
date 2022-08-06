@@ -2,6 +2,7 @@ import LogIn from "../components/auth/LogIn";
 import { render, screen } from '@testing-library/react';
 import { toBeDisabled, toBeCalled } from '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event'; 
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 
@@ -12,7 +13,11 @@ jest.mock('../components/context/AuthContext', () => ({
 
 
 it('should disable login button after login', async () => {
-  render(<LogIn />); 
+  render(
+    <Router>
+      <LogIn />
+    </Router>
+  ); 
 
   const emailInput = screen.getByLabelText(/Email/i);
   const passwordInput = screen.getByLabelText(/Password/i);
