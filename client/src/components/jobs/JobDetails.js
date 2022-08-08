@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
 import AddEventForm from '../events/AddEventForm';
@@ -19,11 +19,18 @@ function JobDetails({
   const todoRef = useRef(null);
   const { currentUser } = useAuth();
 
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    setData(() => jobs.filter((job) => job._id === jobId.id)[0]);
+  }, [jobs])
+
   if (!jobs) return <div>Loading</div>;
 
-  const data = jobs.filter((job) => job._id === jobId.id)[0];
-
   async function submitTodo(event) {
+
+    event.preventDefault();
+
     const todoData = {
       ...data,
       todos: [
@@ -34,29 +41,43 @@ function JobDetails({
         },
       ],
     };
-    const newJob = await ApiClientService.editJob(todoData);
+
+
+    const newJob = await ApiClientService.editJob(todoData, currentUser);
     setJobs((prevState) => {
       const newJobId = newJob._id;
       return [...prevState.filter((el) => el._id !== newJobId), newJob];
     });
-    getUserJobs(currentUser.uid);
+
+    setData(newJob);
+    getUserJobs(currentUser);
     event.target.reset();
   }
+
+
   async function deleteTodo(id) {
     const todoData = data.todos;
-    const filteredTodo = todoData.filter((el) => el._id === id)[0];
-    filteredTodo.active = false;
+    const filteredTodo = todoData.map((el => {
+      if (el._id === id)
+        el.active = false;
+      
+      return el;
+    }));
+
     const updatedTodos = {
       ...data,
-      todos: todoData,
+      todos: filteredTodo,
     };
+
 
     const newJob = await ApiClientService.editJob(updatedTodos);
     setJobs((prevState) => {
-      const newJobId = newJob._id;
-      return [...prevState.filter((el) => el._id !== newJobId), newJob];
+      //const newJobId = newJob._id;
+      return [...prevState.filter((el) => el._id !== newJob._id), newJob];
     });
-    getUserJobs(currentUser.uid);
+
+    setData(newJob);
+    getUserJobs(currentUser);
   }
 
   const filteredEvents = events.filter((el) => el.jobId === jobId.id);
