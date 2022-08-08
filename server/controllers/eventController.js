@@ -32,8 +32,7 @@ const deleteEvent = async (req, res) => {
 
 const updateEvent = async (req, res) => {
   try {
-    const updated = await eventModel.updateOneEvents(req.params.id, req.body);
-    // console.log(updated);
+    const updated = await eventModel.updateOneEvent(req.params.id, req.body);
     res.status(200).send(updated);
   } catch (error) {
     console.log('Error in updateEvent', error);

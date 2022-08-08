@@ -70,11 +70,11 @@ describe('Integration tests', () => {
   
       const post1 = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob);
+      .send(mock.mockJob1);
   
       const post2 = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob1);
+      .send(mock.mockJob2);
   
   
       const res = await request.get('/jobs/testUser123', )
@@ -91,16 +91,16 @@ describe('Integration tests', () => {
   
       const res = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob)
+      .send(mock.mockJob1)
   
-      const job = await JobModel.findOne(mock.mockJob);
-      expect(job.company).toBe(mock.mockJob.company);
-      expect(job.title).toBe(mock.mockJob.title);
-      expect(job.userId).toBe(mock.mockJob.userId);
-      expect(job.location).toBe(mock.mockJob.location);
-      expect(job.salary).toBe(mock.mockJob.salary);
-      expect(job.post_url).toBe(mock.mockJob.post_url);
-      expect(job.color).toBe(mock.mockJob.color);
+      const job = await JobModel.findOne(mock.mockJob1);
+      expect(job.company).toBe(mock.mockJob1.company);
+      expect(job.title).toBe(mock.mockJob1.title);
+      expect(job.userId).toBe(mock.mockJob1.userId);
+      expect(job.location).toBe(mock.mockJob1.location);
+      expect(job.salary).toBe(mock.mockJob1.salary);
+      expect(job.post_url).toBe(mock.mockJob1.post_url);
+      expect(job.color).toBe(mock.mockJob1.color);
       expect(res.status).toBe(201);
     })
   
@@ -109,13 +109,13 @@ describe('Integration tests', () => {
   
       const post = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob)
+      .send(mock.mockJob1)
   
       const id = post.body._id;
   
       const post2 = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob1);
+      .send(mock.mockJob2);
   
   
       const deleteRes = await request.delete('/jobs/' + id, )
@@ -136,7 +136,7 @@ describe('Integration tests', () => {
   
       const post = await request.post('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockJob)
+      .send(mock.mockJob1)
   
       const id = post.body._id;
   
@@ -147,15 +147,17 @@ describe('Integration tests', () => {
   
       const getRes = await request.get('/jobs/testUser123', )
       .set('authorization', 'Bearer ' + token);
+
+      const resJob = getRes.body[0];
   
       expect(updateRes.status).toBe(200);
       expect(getRes.status).toBe(200);
   
-      expect(getRes.body[0]._id).toEqual(id);
-      expect(getRes.body[0].title).toEqual(mock.mockJobUpdate.title);
-      expect(getRes.body[0].company).toEqual(mock.mockJobUpdate.company);
-      expect(getRes.body[0].location).toEqual(mock.mockJobUpdate.location);
-      expect(getRes.body[0].salary).toEqual(mock.mockJobUpdate.salary);
+      expect(resJob._id).toEqual(id);
+      expect(resJob.title).toEqual(mock.mockJobUpdate.title);
+      expect(resJob.company).toEqual(mock.mockJobUpdate.company);
+      expect(resJob.location).toEqual(mock.mockJobUpdate.location);
+      expect(resJob.salary).toEqual(mock.mockJobUpdate.salary);
     })
   })
 
@@ -164,63 +166,66 @@ describe('Integration tests', () => {
 
     it('should get events from the DB', async () => {
   
-      await request.post('/events/' + mock.mockEvent.jobId, )
-      .set('authorization', 'Bearer ' + token)
-      .send(mock.mockEvent);
-  
       await request.post('/events/' + mock.mockEvent1.jobId, )
       .set('authorization', 'Bearer ' + token)
       .send(mock.mockEvent1);
   
+      await request.post('/events/' + mock.mockEvent2.jobId, )
+      .set('authorization', 'Bearer ' + token)
+      .send(mock.mockEvent2);
+  
   
       const res = await request.get('/events/testUser123', )
       .set('authorization', 'Bearer ' + token);
-  
+
+      const resEvent1 = res.body[0];
+      const resEvent2 = res.body[1];
+      
   
       expect(res.status).toBe(200);
-      expect(res.body[0].name).toEqual(mock.mockEvent.name);
-      expect(res.body[0].location).toEqual(mock.mockEvent.location);
-      expect(res.body[0].start_date).toEqual(mock.mockEvent.start_date);
-      expect(res.body[1].name).toEqual(mock.mockEvent1.name);
-      expect(res.body[1].location).toEqual(mock.mockEvent1.location);
-      expect(res.body[1].start_date).toEqual(mock.mockEvent1.start_date);
+      expect(resEvent1.name).toEqual(mock.mockEvent1.name);
+      expect(resEvent1.location).toEqual(mock.mockEvent1.location);
+      expect(resEvent1.start_date).toEqual(mock.mockEvent1.start_date);
+      expect(resEvent2.name).toEqual(mock.mockEvent2.name);
+      expect(resEvent2.location).toEqual(mock.mockEvent2.location);
+      expect(resEvent2.start_date).toEqual(mock.mockEvent2.start_date);
     })
 
 
     it('should save an event to the DB', async () => {
   
-      const res = await request.post('/events/' + mock.mockEvent.jobId, )
+      const res = await request.post('/events/' + mock.mockEvent1.jobId, )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockEvent);
+      .send(mock.mockEvent1);
   
-      const event = await EventModel.findOne(mock.mockEvent);
-      expect(event.jobId).toBe(mock.mockEvent.jobId);
-      expect(event.name).toBe(mock.mockEvent.name);
-      expect(event.userId).toBe(mock.mockEvent.userId);
-      expect(event.location).toBe(mock.mockEvent.location);
-      expect(event.desciption).toBe(mock.mockEvent.desciption);
-      expect(event.start_date).toBe(mock.mockEvent.start_date);
-      expect(event.end_date).toBe(mock.mockEvent.end_date);
-      expect(event.start_time).toBe(mock.mockEvent.start_time);
-      expect(event.end_time).toBe(mock.mockEvent.end_time);
+      const event = await EventModel.findOne(mock.mockEvent1);
+      expect(event.jobId).toBe(mock.mockEvent1.jobId);
+      expect(event.name).toBe(mock.mockEvent1.name);
+      expect(event.userId).toBe(mock.mockEvent1.userId);
+      expect(event.location).toBe(mock.mockEvent1.location);
+      expect(event.desciption).toBe(mock.mockEvent1.desciption);
+      expect(event.start_date).toBe(mock.mockEvent1.start_date);
+      expect(event.end_date).toBe(mock.mockEvent1.end_date);
+      expect(event.start_time).toBe(mock.mockEvent1.start_time);
+      expect(event.end_time).toBe(mock.mockEvent1.end_time);
       expect(res.status).toBe(201);
     })
 
 
     it('should delete an event on delete route', async () => {
   
-      await request.post('/events/' + mock.mockEvent.jobId, )
+      await request.post('/events/' + mock.mockEvent1.jobId, )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockEvent);
+      .send(mock.mockEvent1);
 
       const res = await request.get('/events/testUser123', )
       .set('authorization', 'Bearer ' + token);
   
       const id = res.body[0]._id;
   
-      await request.post('/events/' + mock.mockEvent1.jobId, )
+      await request.post('/events/' + mock.mockEvent2.jobId, )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockEvent1);
+      .send(mock.mockEvent2);
   
   
       const deleteRes = await request.delete('/events/' + id, )
@@ -229,15 +234,17 @@ describe('Integration tests', () => {
   
       const getRes = await request.get('/events/testUser123', )
       .set('authorization', 'Bearer ' + token);
+
+      const resEvent = getRes.body[0];
   
       expect(deleteRes.status).toBe(204);
       expect(getRes.status).toBe(200);
       expect(getRes.body.length).toEqual(1);
-      expect(getRes.body[0].name).toEqual(mock.mockEvent1.name);
-      expect(getRes.body[0].jobId).toEqual(mock.mockEvent1.jobId);
-      expect(getRes.body[0].userId).toEqual(mock.mockEvent1.userId);
-      expect(getRes.body[0].desciption).toEqual(mock.mockEvent1.desciption);
-      expect(getRes.body[0].location).toEqual(mock.mockEvent1.location);
+      expect(resEvent.name).toEqual(mock.mockEvent2.name);
+      expect(resEvent.jobId).toEqual(mock.mockEvent2.jobId);
+      expect(resEvent.userId).toEqual(mock.mockEvent2.userId);
+      expect(resEvent.desciption).toEqual(mock.mockEvent2.desciption);
+      expect(resEvent.location).toEqual(mock.mockEvent2.location);
 
 
       //Need to return data back after post.
@@ -246,9 +253,9 @@ describe('Integration tests', () => {
 
     it('should update an event on update route', async () => {
   
-      await request.post('/events/' + mock.mockEvent.jobId, )
+      await request.post('/events/' + mock.mockEvent1.jobId, )
       .set('authorization', 'Bearer ' + token)
-      .send(mock.mockEvent);
+      .send(mock.mockEvent1);
 
       const res = await request.get('/events/testUser123', )
       .set('authorization', 'Bearer ' + token);
@@ -262,17 +269,19 @@ describe('Integration tests', () => {
   
       const getRes = await request.get('/events/testUser123', )
       .set('authorization', 'Bearer ' + token);
+
+      const resEvent = getRes.body[0];
   
       expect(updateRes.status).toBe(200);
       expect(getRes.status).toBe(200);
   
-      expect(getRes.body[0]._id).toEqual(id);
-      expect(getRes.body[0].name).toEqual(mock.mockEventUpdate.name);
-      expect(getRes.body[0].jobId).toEqual(mock.mockEventUpdate.jobId);
-      expect(getRes.body[0].location).toEqual(mock.mockEventUpdate.location);
-      expect(getRes.body[0].userId).toEqual(mock.mockEventUpdate.userId);
-      expect(getRes.body[0].start_date).toEqual(mock.mockEventUpdate.start_date);
-      expect(getRes.body[0].end_date).toEqual(mock.mockEventUpdate.end_date);
+      expect(resEvent._id).toEqual(id);
+      expect(resEvent.name).toEqual(mock.mockEventUpdate.name);
+      expect(resEvent.jobId).toEqual(mock.mockEventUpdate.jobId);
+      expect(resEvent.location).toEqual(mock.mockEventUpdate.location);
+      expect(resEvent.userId).toEqual(mock.mockEventUpdate.userId);
+      expect(resEvent.start_date).toEqual(mock.mockEventUpdate.start_date);
+      expect(resEvent.end_date).toEqual(mock.mockEventUpdate.end_date);
     })
   
     

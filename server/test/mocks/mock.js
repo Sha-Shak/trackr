@@ -1,6 +1,6 @@
 const mock = {};
 
-mock.mockJob = {
+mock.mockJob1 = {
   company: 'Test company',
   title: 'Test title',
   userId: 'testUser123',
@@ -12,7 +12,7 @@ mock.mockJob = {
 }
 
 
-mock.mockJob1 = {
+mock.mockJob2 = {
   company: 'Another company',
   title: 'Another title',
   userId: 'testUser123',
@@ -43,7 +43,7 @@ mock.mockJobUpdate = {
 }
 
 
-mock.mockEvent = {
+mock.mockEvent1 = {
   jobId: 'testJobId123',
   userId: 'testUser123',
   name: 'Test Event',
@@ -57,7 +57,7 @@ mock.mockEvent = {
 
 
 
-mock.mockEvent1 = {
+mock.mockEvent2 = {
   jobId: 'testJobId123',
   userId: 'testUser123',
   name: 'Test Event 1',
