@@ -7,19 +7,6 @@ import { jobs } from '../test/mocksDatas/jobMock';
 jest.mock('../components/context/AuthContext', () => ({
   useAuth: () => ({login: () => console.log('login'), currentUser: {uid: 'testID123456'} })
 }))
-// color: "orange",
-// company: "Bithut Limited",
-// date_added: "Fri Aug 05 2022",
-// description: "awdxdasxasx",
-// location: "UK",
-// notes: "",
-// post_url: "https:/yo.com",
-// salary: "40k",
-// status: "onsite",
-// title: "Img Test",
-// userId: "jSOkxkWViYhqbYmLMjMdXHyaGHu2",
-// _id: "62ece48652d14102df7e90c7"
-
 it('fields should be disabled', async () => {
   const getUserJobs = jest.fn()
   const setJobs= jest.fn()
