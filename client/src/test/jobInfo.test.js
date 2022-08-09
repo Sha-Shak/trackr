@@ -11,6 +11,7 @@ it('fields should be disabled', async () => {
   const getUserJobs = jest.fn()
   const setJobs= jest.fn()
   render(<JobInfo jobs={jobs} setJobs={setJobs} getUserJobs={getUserJobs} />); 
+  
   const jobInput = screen.getByTestId('title')
   const companyInput = screen.getByTestId('company')
   const salaryInput = screen.getByTestId("salary");
