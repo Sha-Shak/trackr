@@ -1,8 +1,10 @@
 import React from 'react';
+import { Event } from '../../event';
+import { Job } from '../../job';
 import JobEvents from '../events/JobEvents';
 import JobTasks from '../todos/JobTasks.';
 
-function EventsTasks({ jobs, events }) {
+function EventsTasks({ jobs, events }: { jobs: Job[], events: Event[]}) {
   return jobs && events ? (
     <section className='task-event-cont'>
       <div className='form-box blue white-text'>

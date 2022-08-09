@@ -1,7 +1,8 @@
 import React from 'react';
+import { Job } from '../../job';
 import JobList from '../jobs/JobList';
 
-function Dashboard({ jobs, getUserJobs }) {
+function Dashboard({ jobs, getUserJobs }: {jobs: Job[], getUserJobs: Function}) {
   const sections = [
     'Pending',
     'Applied',
