@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function LogIn() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login, currentUser } = useAuth();
+function SignUp() {
+  const emailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const passwordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const passwordConfirmRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const { signup, currentUser } = useAuth();
   const navigate = useNavigate();
 
   const [error, setError] = useState('');
@@ -17,17 +18,21 @@ function LogIn() {
     }
   }, []);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError('Passwords do not match');
+    }
 
     try {
       setError('');
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await signup(emailRef.current.value, passwordRef.current.value);
       navigate('/');
     } catch (e) {
       console.log(e);
-      setError('Log in failed');
+      setError('Failed to create an account');
     }
 
     setLoading(false);
@@ -36,8 +41,8 @@ function LogIn() {
     <>
       <div className='logo-text'> Trackr</div>
       <section className='login-container purple'>
-        <p>{error}</p>
-        <h2 className='white-text slim'>Login</h2>
+        <p role='error'>{error}</p>
+        <h2 className='white-text slim'>Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>
             <label htmlFor='email' className='form-label'>
@@ -47,8 +52,8 @@ function LogIn() {
               type='text'
               id='email'
               ref={emailRef}
-              className='form-input'
               autoComplete='off'
+              className='form-input'
               required
             />
           </fieldset>
@@ -64,17 +69,29 @@ function LogIn() {
               ref={passwordRef}
             />
           </fieldset>
+          <fieldset>
+            <label htmlFor='confirm-password' className='form-label'>
+              Confirm Password
+            </label>
+            <input
+              type='password'
+              id='confirm-password'
+              className='form-input'
+              required
+              ref={passwordConfirmRef}
+            />
+          </fieldset>
 
           <button className='btn btn-login' disabled={loading}>
-            Log In
+            Sign Up
           </button>
         </form>
         <p className='login-option'>
-          Not registered?
+          Already registered?
           <span>
-            {/* <Link className='login-link' to='/signup'>
-              Sign Up
-            </Link> */}
+            <Link className='login-link' to='/login'>
+              Login
+            </Link>
           </span>
         </p>
       </section>
@@ -82,4 +99,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default SignUp;
