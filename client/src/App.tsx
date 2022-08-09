@@ -9,22 +9,26 @@ import JobDetails from './components/jobs/JobDetails';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/privateroutes/PrivateRoute';
 import EventsTasks from './components/eventstasks/EventsTasks';
-import ApiClientService from './services/ApiClientService.tsx';
+import ApiClientService from './services/ApiClientService';
 import { useAuth } from './components/context/AuthContext';
+import { Job } from './job';
+import { Event } from './event';
 
 function App() {
-  const [jobs, setJobs] = useState([]);
-  const [events, setEvents] = useState([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const { currentUser } = useAuth();
 
-  async function getUserJobs(user) {
-    const userJobs = await ApiClientService.getJobs(user);
-    setJobs(userJobs);
+  async function getUserJobs(user: any) {
+      const userJobs = await ApiClientService.getJobs(user);
+      if (userJobs)
+        setJobs(userJobs);
   }
 
-  async function getUserEvents(user) {
+  async function getUserEvents(user: any) {
     const userEvents = await ApiClientService.getEvents(user);
-    setEvents(userEvents);
+    if (userEvents)
+      setEvents(userEvents);
   }
 
   useEffect(() => {
@@ -47,7 +51,6 @@ function App() {
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route
-              exact
               path='/'
               element={<Dashboard jobs={jobs} getUserJobs={getUserJobs} />}
             />

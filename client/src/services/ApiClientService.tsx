@@ -71,7 +71,7 @@ async function deleteJob(id: string, user: any) : Promise<Boolean> {
   }
 }
 
-async function getEvents(user:any) : Promise<Event | undefined> {
+async function getEvents(user:any) : Promise<Event[] | undefined> {
   try {
     const events : Response = await fetch(`${baseUrl}/events/${user.uid}`, {
       headers: {
