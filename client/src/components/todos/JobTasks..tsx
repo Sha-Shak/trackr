@@ -1,8 +1,9 @@
 import React from 'react';
 import TodoSingle from './TodoSingle';
 import { Link } from 'react-router-dom';
+import { Job } from '../../job';
 
-function JobTasks({ data }) {
+function JobTasks({ data }: { data: Job}) {
   return data ? (
     <div>
       <h3 className='slim margin-bottom'>
@@ -15,7 +16,7 @@ function JobTasks({ data }) {
         {data.todos
           .filter((task) => task.active)
           .map((task) => {
-            return <TodoSingle task={task} key={task._id} />;
+            return <TodoSingle task={task} key={task._id} deleteTodo={undefined}/>;
           })}
       </div>
     </div>

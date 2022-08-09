@@ -1,6 +1,6 @@
 import React from 'react';
 import JobEvents from '../events/JobEvents';
-import JobTasks from '../todos/JobTasks';
+import JobTasks from '../todos/JobTasks.';
 
 function EventsTasks({ jobs, events }) {
   return jobs && events ? (
