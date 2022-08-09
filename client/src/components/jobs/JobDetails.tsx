@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
 import AddEventForm from '../events/AddEventForm';
@@ -6,6 +6,8 @@ import EventsItem from '../events/EventsItem';
 import TodoSingle from '../todos/TodoSingle';
 import JobInfo from './JobInfo';
 import { useAuth } from '../context/AuthContext';
+import { Job } from '../../job';
+import { Event } from '../../event';
 
 function JobDetails({
   jobs,
@@ -14,12 +16,21 @@ function JobDetails({
   events,
   setEvents,
   getUserEvents,
+}: {
+  jobs: Job[],
+  setJobs: Function,
+  getUserJobs: Function,
+  events: Event[],
+  setEvents: Function,
+  getUserEvents: Function,
 }) {
   const jobId = useParams();
-  const todoRef = useRef(null);
+  const todoRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const { currentUser } = useAuth();
 
-  const [data, setData] = useState();
+  const job = jobs.filter((job) => job._id === jobId.id)[0];
+
+  const [data, setData] = useState<Job>(job);
 
   useEffect(() => {
     setData(() => jobs.filter((job) => job._id === jobId.id)[0]);
@@ -27,7 +38,7 @@ function JobDetails({
 
   if (!jobs) return <div>Loading</div>;
 
-  async function submitTodo(event) {
+  async function submitTodo(event: FormEvent<HTMLFormElement>) {
 
     event.preventDefault();
 
@@ -43,19 +54,21 @@ function JobDetails({
     };
 
 
-    const newJob = await ApiClientService.editJob(todoData, currentUser);
-    setJobs((prevState) => {
-      const newJobId = newJob._id;
-      return [...prevState.filter((el) => el._id !== newJobId), newJob];
-    });
-
-    setData(newJob);
-    getUserJobs(currentUser);
-    event.target.reset();
+    const newJob = await ApiClientService.editJob(todoData);
+    if(newJob) {
+    setJobs((prevState: Job[]) => {
+        const newJobId = newJob._id;
+        return [...prevState.filter((el) => el._id !== newJobId), newJob];
+      });
+      
+      setData(newJob);
+      getUserJobs(currentUser);
+    }
+    event.currentTarget.reset();
   }
 
 
-  async function deleteTodo(id) {
+  async function deleteTodo(id: String) {
     const todoData = data.todos;
     const filteredTodo = todoData.map((el => {
       if (el._id === id)
@@ -71,13 +84,15 @@ function JobDetails({
 
 
     const newJob = await ApiClientService.editJob(updatedTodos);
-    setJobs((prevState) => {
-      //const newJobId = newJob._id;
-      return [...prevState.filter((el) => el._id !== newJob._id), newJob];
-    });
 
-    setData(newJob);
-    getUserJobs(currentUser);
+    if(newJob){
+      setJobs((prevState: Job[]) => {
+        return [...prevState.filter((el) => el._id !== newJob._id), newJob];
+      });
+      
+      setData(newJob);
+      getUserJobs(currentUser);
+    }
   }
 
   const filteredEvents = events.filter((el) => el.jobId === jobId.id);

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
-function JobInfo({ jobs, setJobs, getUserJobs }) {
+function JobInfo({ jobs, setJobs, getUserJobs, className }) {
   console.log()
   const { currentUser } = useAuth();
 

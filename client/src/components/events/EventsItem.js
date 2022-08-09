@@ -4,7 +4,7 @@ import 'add-to-calendar-button/assets/css/atcb.css';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
-function EventsItem({ singleEvent, getUserEvents }) {
+function EventsItem({ singleEvent, getUserEvents, setEvents }) {
   const { currentUser } = useAuth();
   function submitEvent(e) {
     e.preventDefault();
