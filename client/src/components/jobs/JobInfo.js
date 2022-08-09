@@ -4,6 +4,7 @@ import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
 function JobInfo({ jobs, setJobs, getUserJobs }) {
+  console.log()
   const { currentUser } = useAuth();
 
   const [isDisabled, setIsDisabled] = useState(true);

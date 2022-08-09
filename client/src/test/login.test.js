@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 
 jest.mock('../components/context/AuthContext', () => ({
-  useAuth: () => ({login: () => console.log('login')})
+  useAuth: () => ({login: () => console.log('login'), currentUser:{uid:'123'}})
 }))
 
 

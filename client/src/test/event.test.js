@@ -2,9 +2,6 @@ import AddEventForm from "../components/events/AddEventForm";
 import { render, screen } from '@testing-library/react';
 import { toBeDisabled } from '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event'; 
-//import uuid from 'uuid';
-//import { act } from "react-dom/test-utils";
-import { AuthProvider } from '../components/context/AuthContext'
 
 jest.mock('uuid')
 
@@ -34,52 +31,25 @@ const events = [{
   location : '1234',
 }]
 
-
-// const MockAuthProvider = ()=>{
-// <AuthProvider>
-//   <AddEventForm events={events} setEvents={setEvents} getUserEvents={getUserEvents} currentUser={currentUser}/>
-// </AuthProvider>
-// }
-
-//const {currentUser} = useAuth();
-
-// jest.mock('../components/context/AuthContext', () => ({
-//   useAuth: () => ({login: () => console.log('login')})
-// }))
-
-
-
 it('should set button to disabled after clicking', async () => {
 
-  render(
-    <AddEventForm events={events} setEvents={setEvents} getUserEvents={getUserEvents} currentUser={currentUser}/>
-  // <MockAuthProvider />
-); 
+  render(<AddEventForm events={events} setEvents={setEvents} getUserEvents={getUserEvents} currentUser={currentUser}/>); 
 
+  const Event_Title = screen.getByLabelText(/Event Title/i)
+  const Description = screen.getByLabelText(/Description/i);
+  const Location = screen.getByLabelText(/Location/i);
+  const StartDate = screen.getByLabelText(/Start Date & Time/i);
+  const EndDate = screen.getByLabelText(/End Date & Time/i);
 
-
-  const Event_Title = screen.getByTestId('event-title')
- // screen.debug(Event_Title);
-  const Description = screen.getByPlaceholderText(/Decription/i);
-  const Location = screen.getByPlaceholderText(/Location/i);
- // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
- // const StartDT =  utils.container.querySelector("#startDateTime");
-  // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-// const EndDT =  utils.container.querySelector("#endDateTime");
-  
-// const StartDT = screen.getByPlaceholderText(/startDateTime/i);
-//   const EndDT = screen.getByPlaceholderText(/endDateTime/i);
   const submit = screen.getByDisplayValue('Save');
   
-  userEvent.type(Event_Title, 'test@gmail.com');
- // userEvent.type(StartDT, '2022-08-26T23:32');
- // userEvent.type(EndDT, 'test123');
-// act( async ()=>{
+  userEvent.type(Event_Title, 'Technical Interview');
+  userEvent.type(Description, 'Coding session for 1hour online');
+  userEvent.type(Location, 'online');
+  userEvent.type(StartDate, '2022-08-02T23:32');
+  userEvent.type(EndDate,  '2022-08-26T23:32');
+
    await userEvent.click(submit);
    expect(submit).toBeDisabled();
-// })
-  
-  //expect((submit).getAttribute('disabled')).toBe(null);
-
-
+   
 })

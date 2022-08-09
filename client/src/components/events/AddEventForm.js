@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
+
+
 
 function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
   //const { currentUser } = useAuth();
@@ -12,9 +14,12 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
   const [endDate, setEndDate] = useState();
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
+  const [loading, setLoading] = useState(false);
+
   const jobId = useParams();
 
   async function handleSubmit(event) {
+    setLoading(true);
     event.preventDefault();
     const data = {
       jobId: jobId.id,
@@ -33,6 +38,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
       console.log(error);
     }
     setEvents((prev) => [...prev, data]);
+
     event.target.reset();
     getUserEvents(currentUser);
   }
@@ -58,7 +64,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
   const minStartDate = new Date().toISOString().slice(0, 16);
 
   return (
-    <div>
+    <div className="">
       <h2 className='white-text slim'>Add Event</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <fieldset>
@@ -74,7 +80,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
           />
         </fieldset>
         <fieldset>
-          <label className='form-label' htmlFor='decription'>
+          <label className='form-label' htmlFor='description'>
             Description
           </label>
           <input
@@ -122,7 +128,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
             required
           />
         </fieldset>
-        <input type='submit' value='Save' className='btn btn-save' />
+        <input disabled={loading} type='submit' value='Save' className='btn btn-save' />
       </form>
     </div>
   );

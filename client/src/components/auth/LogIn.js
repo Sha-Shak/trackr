@@ -6,14 +6,14 @@ function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login, currentUser } = useAuth();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
-      //navigate('/');
+      navigate('/');
     }
   }, []);
 
@@ -24,7 +24,7 @@ function LogIn() {
       setError('');
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      //navigate('/');
+      navigate('/');
     } catch (e) {
       console.log(e);
       setError('Log in failed');
