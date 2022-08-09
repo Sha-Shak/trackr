@@ -1,22 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
 function JobSummary({ data, getUserJobs }) {
   const { currentUser } = useAuth();
+  const [errorMessage, setErrorMessage] = useState('');
   const [del, setDel] = useState(false);
   function toggleDelete() {
     setDel((current) => !current);
   }
 
   async function confirmDelete(id, user) {
-    await ApiClientService.deleteJob(id, user);
-    getUserJobs(currentUser);
+    const res = await ApiClientService.deleteJob(id, user);
+    console.log("from comp",res)
+    if(res){
+      getUserJobs(currentUser);
+    } else{
+      setErrorMessage("Can't delete!");
+    } 
   }
+  useEffect(()=>{
+    if(errorMessage) {
+      setTimeout(()=>{
+        setErrorMessage("")
+      },2000)
+    }
+  },[errorMessage])
 
   return data ? (
     <div className={`card card-panel ${data.color}`}>
+      {errorMessage && (
+            //setTimeout(()=>{
+              //return 
+            <p className="error"> {errorMessage} </p>
+           // }, 3000) 
+      )}
       {del ? (
         <>
           <h4>Are you sure?</h4>
@@ -32,6 +51,7 @@ function JobSummary({ data, getUserJobs }) {
               Cancel
             </button>
           </div>
+          
         </>
       ) : (
         <>
