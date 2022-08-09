@@ -1,21 +1,32 @@
+import { Event } from "../event";
+import { Job } from "../job";
+
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-async function getJobs(user) {
+async function getJobs (user: any) : Promise<Job[]> {
+
+  let jobs : Response;
+
   try {
-    const jobs = await fetch(`${baseUrl}/jobs/${user.uid}`, {
+    jobs = await fetch(`${baseUrl}/jobs/${user.uid}`, {
       headers: {
         Authorization: 'Bearer ' + user.accessToken,
       },
     });
-    return jobs.json();
   } catch (error) {
     console.log('GET request error', error);
+    jobs = new Response(undefined);
   }
+
+  return jobs.json();
 }
 
-async function addJob(data, user) {
+async function addJob (data: Job, user: any) : Promise<Job> {
+
+  let response : Response;
+
   try {
-    const newJob = await fetch(`${baseUrl}/jobs/${data.userId}`, {
+    response = await fetch(`${baseUrl}/jobs/${data.userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,40 +34,48 @@ async function addJob(data, user) {
       },
       body: JSON.stringify(data),  
     });
-    const response = await newJob.json();
-    return response;
-
+    
   } catch (error) {
     console.log('POST request error', error);
+    response = new Response(undefined);
   }
+
+  return response.json();
 }
 
-async function editJob(data) {
+async function editJob(data: Job) : Promise<Job | undefined> {
+
+  let editData: Response;
   try {
-    const editData = await fetch(`${baseUrl}/jobs/${data._id}`, {
+    editData = await fetch(`${baseUrl}/jobs/${data._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    return await editData.json();
   } catch (error) {
     console.log('PUT request error', error);
+    editData = new Response(undefined);
   }
+
+  return editData.json();
 }
 
-async function deleteJob(id, user) {
+async function deleteJob(id: string, user: any) : Promise<Boolean> {
+
+  let response : Response;
+
   try {
-    const response = await fetch(`${baseUrl}/jobs/${id}`, {
+    response = await fetch(`${baseUrl}/jobs/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + user.accessToken,
       },
     });
-    //const res = await response.json();
+
     console.log(response.ok)
     return response.ok
-    // return res;
+
   } catch (error) {
     console.log('DELETE request error', error);
     return false;
@@ -64,20 +83,24 @@ async function deleteJob(id, user) {
   }
 }
 
-async function getEvents(user) {
+async function getEvents(user:any) : Promise<Event> {
+  let events : Response;
+
   try {
-    const events = await fetch(`${baseUrl}/events/${user.uid}`, {
+    events = await fetch(`${baseUrl}/events/${user.uid}`, {
       headers: {
         Authorization: 'Bearer ' + user.accessToken,
       },
     });
-    return events.json();
   } catch (error) {
     console.log('GET request error', error);
+    events = new Response(undefined);
   }
+
+  return events.json();
 }
 
-async function addEvent(data, user) {
+async function addEvent(data:Event, user:any) {
   try {
     await fetch(`${baseUrl}/events/${data.jobId}`, {
       method: 'POST',
@@ -92,7 +115,7 @@ async function addEvent(data, user) {
   }
 }
 
-async function deleteEvent(id, user) {
+async function deleteEvent(id:string, user:any) {
   try {
     await fetch(`${baseUrl}/events/${id}`, {
       method: 'DELETE',
@@ -106,7 +129,7 @@ async function deleteEvent(id, user) {
   }
 }
 
-module.exports = {
+export default  {
   getJobs,
   addJob,
   editJob,

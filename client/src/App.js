@@ -9,7 +9,7 @@ import JobDetails from './components/jobs/JobDetails';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/privateroutes/PrivateRoute';
 import EventsTasks from './components/eventstasks/EventsTasks';
-import ApiClientService from './services/ApiClientService';
+import ApiClientService from './services/ApiClientService.tsx';
 import { useAuth } from './components/context/AuthContext';
 
 function App() {
