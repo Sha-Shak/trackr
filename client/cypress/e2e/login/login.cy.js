@@ -15,6 +15,15 @@ describe('Tracker Login', () => {
   })
 
 
+  it('should not log in with missing fields', () => {
+    cy.get('#email').type('samiya.kazi09@gmail.com');
+    cy.get('button').contains('Log In').click();
+
+    cy.should('not.contain', "Dashboard");
+    cy.should('not.contain', "Logout");
+  })
+
+
   it('should login to dashboard', () => {
     cy.get('#email').type('samiya.kazi09@gmail.com');
     cy.get('#password').type('samiyakazi');
