@@ -2,7 +2,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 async function getJobs(user) {
   try {
-    let jobs = await fetch(`${baseUrl}/jobs/${user.uid}`, {
+    const jobs = await fetch(`${baseUrl}/jobs/${user.uid}`, {
       headers: {
         Authorization: 'Bearer ' + user.accessToken,
       },
@@ -46,21 +46,27 @@ async function editJob(data) {
 
 async function deleteJob(id, user) {
   try {
-    await fetch(`${baseUrl}/jobs/${id}`, {
+    const response = await fetch(`${baseUrl}/jobs/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + user.accessToken,
       },
     });
+    //const res = await response.json();
+    console.log(response.ok)
+    return response.ok
+    // return res;
   } catch (error) {
     console.log('DELETE request error', error);
+    return false;
+   
   }
 }
 
 async function getEvents(user) {
   try {
-    let events = await fetch(`${baseUrl}/events/${user.uid}`, {
+    const events = await fetch(`${baseUrl}/events/${user.uid}`, {
       headers: {
         Authorization: 'Bearer ' + user.accessToken,
       },

@@ -3,8 +3,13 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateJob from "../components/jobs/CreateJob";
+
+jest.mock('../components/context/AuthContext', () => ({
+  useAuth: () => ({login: () => console.log('login'), currentUser: {uid: 'testID123456'} })
+}))
+const setJobs = jest.fn();
 it('should clear fields when button clicked', async () => {
-  const result = render(<CreateJob />); 
+  const result = render(<CreateJob setJobs={setJobs}/>); 
   const jobInput = result.container.querySelector("#title");
   const companyInput =  result.container.querySelector("#company");
   const salaryInput = result.container.querySelector("#salary");

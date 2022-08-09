@@ -13,7 +13,6 @@ const getJobs = async (req, res) => {
 const createNewJob = async (req, res) => {
   try {
     const newJob = await jobModel.setOne(req.body);
-    console.log("object", newJob);
     res.status(201).send(newJob);
   } catch (error) {
     console.log('Error in createNewJob', error);
@@ -23,11 +22,14 @@ const createNewJob = async (req, res) => {
 
 const deleteJob = async (req, res) => {
   try {
-    await jobModel.deleteOne(req.params.id);
-    res.status(204).send('Deleted Job');
+    const deletedJob = await jobModel.deleteOne(req.params.id);
+    console.log("controller: ", deletedJob)
+    res.status(204).send(deletedJob);
   } catch (error) {
+    console.log(" throw:", error.message);
+    //throw new Error (error.message)
     console.log('Error in deleteJob', error);
-    res.status(500);
+    res.status(500).send(error.message);
   }
 };
 

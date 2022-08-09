@@ -58,7 +58,7 @@ function JobInfo({ jobs, setJobs, getUserJobs }) {
       const newJobId = newJob._id;
       return [...prevState.filter((el) => el._id !== newJobId), newJob];
     });
-    getUserJobs(currentUser.uid);
+    getUserJobs(currentUser);
     setIsDisabled((current) => !current);
   }
   return jobs && data.length ? (
