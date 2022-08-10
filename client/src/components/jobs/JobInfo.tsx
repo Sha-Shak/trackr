@@ -29,6 +29,7 @@ function JobInfo({
   const notesRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
   if (!jobs) return <div>Loading</div>;
+  //todo make one interface
     interface Sections {
     pending: String,
     applied: String,
@@ -57,6 +58,8 @@ function JobInfo({
   }
 
   async function handleSave() {
+    //todo rename data to job
+    //enforce a interface 
     const editedData = {
       ...data[0],
       company: companyRef.current.value,
