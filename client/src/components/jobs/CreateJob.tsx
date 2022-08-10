@@ -1,8 +1,8 @@
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Job } from '../../job';
+import { Job } from '../../interfaces/job';
 import ApiClientService from '../../services/ApiClientService';
-import { Task } from '../../task';
+import { Task } from '../../interfaces/task';
 import { useAuth } from '../context/AuthContext';
 
 function CreateJob({setJobs}:{ setJobs: Function } ) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoSingle from './TodoSingle';
 import { Link } from 'react-router-dom';
-import { Job } from '../../job';
+import { Job } from '../../interfaces/job';
 
 function JobTasks({ data }: { data: Job}) {
   return data ? (

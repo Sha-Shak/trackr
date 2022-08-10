@@ -1,6 +1,6 @@
 import React from 'react';
-import { Event } from '../../event';
-import { Job } from '../../job';
+import { Event } from '../../interfaces/event';
+import { Job } from '../../interfaces/job';
 import JobEvents from '../events/JobEvents';
 import JobTasks from '../todos/JobTasks.';
 

@@ -1,5 +1,5 @@
-import { Event } from "../event";
-import { Job } from "../job";
+import { Event } from "../interfaces/event";
+import { Job } from "../interfaces/job";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 

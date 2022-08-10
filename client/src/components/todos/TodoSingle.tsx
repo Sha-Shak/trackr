@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '../../task';
+import { Task } from '../../interfaces/task';
 
 function TodoSingle({ task, deleteTodo }: {task: Task, deleteTodo: Function | undefined}) {
   return (

@@ -1,4 +1,4 @@
-import { Job } from '../../job';
+import { Job } from '../../interfaces/job';
 import JobSummary from './JobSummary';
 
 function JobList(
