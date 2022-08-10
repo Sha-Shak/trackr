@@ -25,7 +25,7 @@ describe('login test', ()=>{
   })
   it("should add job",()=>{
     cy.get(".nav-item").contains("Add Job").click()
-    cy.get("#title").type("A test job12")
+    cy.get("#jobTitle").type("A test job12")
     cy.get("#company").type("Codeworks1");
     cy.get("select").select("Pending");
     cy.get(".btn-save").click();
