@@ -64,7 +64,8 @@ function JobDetails({
       setData(newJob);
       getUserJobs(currentUser);
     }
-    event.currentTarget.reset();
+
+    (document.getElementById("add-task-form") as HTMLFormElement).reset();
   }
 
 
@@ -110,7 +111,7 @@ function JobDetails({
         </div>
         <div className={`form-box ${data.color}`}>
           <h2 className='white-text slim'>Tasks</h2>
-          <form onSubmit={submitTodo}>
+          <form id='add-task-form' onSubmit={submitTodo}>
             <fieldset>
               <label htmlFor='title' className='form-label'>
                 Add Task

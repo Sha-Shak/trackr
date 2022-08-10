@@ -8,7 +8,7 @@ import './styles/formfields.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './components/context/AuthContext';
 
-const container: HTMLElement = document.getElementById('root') || new HTMLElement();
+const container: HTMLElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 root.render(
