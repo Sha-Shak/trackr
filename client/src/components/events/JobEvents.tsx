@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Event } from '../../interfaces/event';
+import { Job } from '../../interfaces/job';
 
-function JobEvents({ singleEvent, jobs }) {
+function JobEvents({ singleEvent, jobs } : {singleEvent:Event,jobs:Job[]}) {
   const job = jobs.filter((el) => el._id === singleEvent.jobId)[0];
 
   return job && singleEvent ? (

@@ -14,4 +14,5 @@ export interface Event {
 export interface EventItemProps{ 
   singleEvent:Event,
    getUserEvents : Function,
-   setEvents : Function,}
+   setEvents : Function
+  }
