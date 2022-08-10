@@ -1,7 +1,15 @@
-import React from 'react';
+import { Job } from '../../interfaces/job';
 import JobSummary from './JobSummary';
 
-function JobList({ jobs, section, getUserJobs }) {
+function JobList(
+  { jobs,
+    section,
+    getUserJobs }:{
+    jobs: Job[],
+    section: String,
+    getUserJobs: Function,
+  
+    }) {
   return jobs && jobs.length ? (
     <div>
       <h2 className='slim margin-bottom title-width'>{section}</h2>
@@ -11,7 +19,7 @@ function JobList({ jobs, section, getUserJobs }) {
           .map((data) => {
             return (
               <JobSummary
-                data={data}
+                data ={data}
                 key={data._id}
                 getUserJobs={getUserJobs}
               />

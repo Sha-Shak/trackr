@@ -28,7 +28,7 @@ describe('Add Task', () => {
     cy.contains("Logout");
 
     cy.visit('http://localhost:3000/createJob');
-    cy.get('#title').type('Test title');
+    cy.get('#jobTitle').type('Test title');
     cy.get('#company').type('Test company');
     cy.get('#status').select('pending');
     cy.get('button').contains('Add Job').click();

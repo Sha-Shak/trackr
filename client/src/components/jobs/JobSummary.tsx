@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Job } from '../../interfaces/job';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
-function JobSummary({ data, getUserJobs }) {
+function JobSummary({ data, getUserJobs }: { data: Job, getUserJobs: Function }) {
   const { currentUser } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
   const [del, setDel] = useState(false);
   function toggleDelete() {
     setDel((current) => !current);
   }
-
-  async function confirmDelete(id, user) {
-    const res = await ApiClientService.deleteJob(id, user);
-    console.log("from comp",res)
+//todo: USER TYPE
+  async function confirmDelete(id: string | undefined, user: any) {
+    if (id) { 
+      const res = await ApiClientService.deleteJob(id, user);
     if(res){
       getUserJobs(currentUser);
     } else{
       setErrorMessage("Can't delete!");
-    } 
+    }
+   }  
   }
   useEffect(()=>{
     if(errorMessage) {

@@ -1,22 +1,33 @@
-import React, { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Job } from '../../interfaces/job';
+import { Sections } from '../../interfaces/sections';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
-function JobInfo({ jobs, setJobs, getUserJobs, className }) {
+function JobInfo({ 
+  jobs,
+  setJobs,
+  getUserJobs, 
+  className } : {
+  jobs: Job[],
+  setJobs: Function,
+  getUserJobs: Function,
+  className: string | undefined
+  }) {
   console.log()
   const { currentUser } = useAuth();
 
   const [isDisabled, setIsDisabled] = useState(true);
-  const jobId = useParams();
-  const titleRef = useRef(null);
-  const companyRef = useRef(null);
-  const salaryRef = useRef(null);
-  const locationRef = useRef(null);
-  const post_urlRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const statusRef = useRef(null);
-  const notesRef = useRef(null);
+  const jobId = useParams() ;
+  const titleRef = useRef() as React.MutableRefObject<HTMLInputElement>   ;
+  const companyRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const salaryRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const locationRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const post_urlRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const descriptionRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+  const statusRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
+  const notesRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
   if (!jobs) return <div>Loading</div>;
 
@@ -40,7 +51,7 @@ function JobInfo({ jobs, setJobs, getUserJobs, className }) {
   }
 
   async function handleSave() {
-    const editedData = {
+    const editedJob = {
       ...data[0],
       company: companyRef.current.value,
       title: titleRef.current.value,
@@ -50,12 +61,12 @@ function JobInfo({ jobs, setJobs, getUserJobs, className }) {
       post_url: post_urlRef.current.value,
       description: descriptionRef.current.value,
       notes: notesRef.current.value,
-      color: sections[statusRef.current.value],
+      color: sections[statusRef.current.value as keyof Sections ],
     };
 
-    const newJob = await ApiClientService.editJob(editedData);
-    setJobs((prevState) => {
-      const newJobId = newJob._id;
+    const newJob= await ApiClientService.editJob(editedJob);
+    setJobs((prevState: Job[]) => {
+      const newJobId = newJob?._id;
       return [...prevState.filter((el) => el._id !== newJobId), newJob];
     });
     getUserJobs(currentUser);
@@ -165,7 +176,7 @@ function JobInfo({ jobs, setJobs, getUserJobs, className }) {
             Description
           </label>
           <textarea
-            type='text'
+            
             id='description'
             className='form-input'
             defaultValue={data[0].description ?? ''}
@@ -179,7 +190,7 @@ function JobInfo({ jobs, setJobs, getUserJobs, className }) {
             Notes
           </label>
           <textarea
-            type='text'
+           
             id='notes'
             className='form-input'
             defaultValue={data[0].notes ?? ''}

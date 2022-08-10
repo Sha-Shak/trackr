@@ -1,5 +1,5 @@
 import React from 'react';
-import { Job } from '../../job';
+import { Job } from '../../interfaces/job';
 import JobList from '../jobs/JobList';
 
 function Dashboard({ jobs, getUserJobs }: {jobs: Job[], getUserJobs: Function}) {
