@@ -1,7 +1,7 @@
 describe('Add Events Flow',function (){
     
-    beforeEach(function (){
-        //cy.visit('http://localhost:3000')
+    it('login',function(){
+        cy.visit('http://localhost:3000')
         // cy.get('#email')
         //     .type('noel.alam2323@gmail.com')
         // cy.get('#password')
@@ -10,7 +10,7 @@ describe('Add Events Flow',function (){
     })
 
     it('checks if details button on the card navigates to the right page',function(){
-        cy.visit('http://localhost:3000')
+        
         cy.get('.btn.btn-detail')
             .click();
         cy.url().should('include','/job/')        
@@ -84,14 +84,17 @@ describe('Add Events Flow',function (){
         });
 
         cy.get('#startDateTime')
-            .type('2022-08-09T01:04');
-        
-        cy.get('#startDateTime')
-            .type('2022-08-10T01:04');    
+            .type('2022-08-15T01:04');
+        cy.get('#endDateTime')
+            .type('2022-08-17T01:04');      
 
         cy.get('.btn-save').contains('Save').click();
+     
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(3000);
+       
         cy.get('.todo-item').then((items)=>{
-            expect(items.length).to.eql(count)    
+            expect(items.length).to.eql(count+1)    
         });  
     })
 
@@ -101,15 +104,11 @@ describe('Add Events Flow',function (){
             count = items.length;
         });
 
-        cy.get('#startDateTime')
-            .type('2022-08-09T01:04');
-        
-        cy.get('#startDateTime')
-            .type('2022-08-10T01:04');    
-
-        cy.get('.btn-save').contains('Save').click();
+        cy.get('.material-icons').contains('delete').click()
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(3000);
         cy.get('.todo-item').then((items)=>{
-            expect(items.length).to.eql(count)    
+            expect(items.length).to.eql(count-1)    
         });  
     })
 })

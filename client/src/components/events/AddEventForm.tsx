@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
-// import { useAuth } from '../context/AuthContext';
+import {Event} from '../../event'
 
+// types for props
 
+function AddEventForm(
+  { setEvents, 
+    events, 
+    getUserEvents, 
+    currentUser } : 
+    { setEvents : Function, 
+      events : Event[], 
+      getUserEvents : Function, 
+      currentUser : any
 
-function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
+    }) {
+
   //const { currentUser } = useAuth();
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
-  const [location, setLocation] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [loading, setLoading] = useState(false);
 
   const jobId = useParams();
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     setLoading(true);
     event.preventDefault();
     const data = {
-      jobId: jobId.id,
-      userId: currentUser.uid,
+      jobId: jobId.id as string,
+      userId: currentUser.uid as string,
       name,
       description,
       startDate,
@@ -37,28 +48,33 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
     } catch (error) {
       console.log(error);
     }
-    setEvents((prev) => [...prev, data]);
+    setEvents((prev : Event[]) => [...prev, data]);
 
-    event.target.reset();
+    //event.target.reset();
+    (document.getElementById("add-event") as HTMLFormElement).reset();
     getUserEvents(currentUser);
   }
 
-  function handleStartDateChange(e) {
+  function handleStartDateChange(e : ChangeEvent<HTMLInputElement>) {
     setStartDate(new Date(e.target.value).toISOString().slice(0, 10));
-    setStartTime(new Date(e.target.value).toISOString().slice(11, 16));
+    setStartTime(new Date(e.currentTarget.value).toISOString().slice(11, 16));
   }
-  function handleEndDateChange(e) {
-    setEndDate(new Date(e.target.value).toISOString().slice(0, 10));
-    setEndTime(new Date(e.target.value).toISOString().slice(11, 16));
+
+  function handleEndDateChange(e : ChangeEvent<HTMLInputElement>) {
+    setEndDate(new Date(e.currentTarget.value).toISOString().slice(0, 10));
+    setEndTime(new Date(e.currentTarget.value).toISOString().slice(11, 16));
   }
-  function handleNameChange(e) {
-    setName(e.target.value);
+
+  function handleNameChange(e  : ChangeEvent<HTMLInputElement>) {
+    setName(e.currentTarget.value);
   }
-  function handleLocationChange(e) {
-    setLocation(e.target.value);
+
+  function handleLocationChange(e  : ChangeEvent<HTMLInputElement>) {
+    setLocation(e.currentTarget.value);
   }
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
+  
+  function handleDescriptionChange(e  : ChangeEvent<HTMLInputElement>) {
+    setDescription(e.currentTarget.value);
   }
 
   const minStartDate = new Date().toISOString().slice(0, 16);
@@ -66,7 +82,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
   return (
     <div className="">
       <h2 className='white-text slim'>Add Event</h2>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form id="add-event" onSubmit={handleSubmit}>
         <fieldset>
           <label className='form-label' htmlFor='name'>
             Event Title
@@ -74,6 +90,7 @@ function AddEventForm({ setEvents, events, getUserEvents, currentUser }) {
           <input
             id='name'
             placeholder='Event title'
+          
             onChange={handleNameChange}
             className='form-input'
             required
