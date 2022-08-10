@@ -58,9 +58,7 @@ function JobInfo({
   }
 
   async function handleSave() {
-    //todo rename data to job
-    //enforce a interface 
-    const editedData = {
+    const editedJob = {
       ...data[0],
       company: companyRef.current.value,
       title: titleRef.current.value,
@@ -73,7 +71,7 @@ function JobInfo({
       color: sections[statusRef.current.value as keyof Sections ],
     };
 
-    const newJob= await ApiClientService.editJob(editedData);
+    const newJob= await ApiClientService.editJob(editedJob);
     setJobs((prevState: Job[]) => {
       const newJobId = newJob?._id;
       return [...prevState.filter((el) => el._id !== newJobId), newJob];
