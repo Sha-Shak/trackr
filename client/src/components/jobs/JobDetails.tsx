@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Event } from '../../event';
-import { Job } from '../../job';
+import { Event } from '../../interfaces/event';
+import { Job } from '../../interfaces/job';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 import AddEventForm from '../events/AddEventForm';

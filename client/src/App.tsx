@@ -11,8 +11,8 @@ import PrivateRoute from './components/privateroutes/PrivateRoute';
 import EventsTasks from './components/eventstasks/EventsTasks';
 import ApiClientService from './services/ApiClientService';
 import { useAuth } from './components/context/AuthContext';
-import { Job } from './job';
-import { Event } from './event';
+import { Job } from './interfaces/job';
+import { Event } from './interfaces/event';
 
 function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
