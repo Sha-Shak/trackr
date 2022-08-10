@@ -1,21 +1,15 @@
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Job } from '../../interfaces/job';
-import ApiClientService from '../../services/ApiClientService';
+import { Sections } from '../../interfaces/sections';
 import { Task } from '../../interfaces/task';
+import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
 function CreateJob({setJobs}:{ setJobs: Function } ) {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  interface Sections {
-    pending: String,
-    applied: String,
-    phone: String,
-    onsite: String,
-    offer: String,
-    rejected: String,
-  }
+  
   const sections = {
     pending: 'lime',
     applied: 'yellow',

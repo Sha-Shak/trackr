@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Job } from '../../interfaces/job';
+import { Sections } from '../../interfaces/sections';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
 
@@ -29,15 +30,7 @@ function JobInfo({
   const notesRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
   if (!jobs) return <div>Loading</div>;
-  //todo make one interface
-    interface Sections {
-    pending: String,
-    applied: String,
-    phone: String,
-    onsite: String,
-    offer: String,
-    rejected: String,
-  }
+
   const sections = {
     pending: 'lime',
     applied: 'yellow',
