@@ -10,3 +10,8 @@ export interface Event {
   endTime?: string,
   location?: string
 }
+
+export interface EventItemProps{ 
+  singleEvent:Event,
+   getUserEvents : Function,
+   setEvents : Function,}

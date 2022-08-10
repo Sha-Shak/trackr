@@ -100,7 +100,7 @@ async function addEvent(data:Event, user:any) {
   }
 }
 
-async function deleteEvent(id:string, user:any) {
+async function deleteEvent(id:string | undefined, user:any) {
   try {
     await fetch(`${baseUrl}/events/${id}`, {
       method: 'DELETE',

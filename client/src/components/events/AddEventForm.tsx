@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ApiClientService from '../../services/ApiClientService';
-import {Event} from '../../event'
+import {Event} from '../../interfaces/event'
 
 // types for props
 
@@ -72,7 +72,7 @@ function AddEventForm(
   function handleLocationChange(e  : ChangeEvent<HTMLInputElement>) {
     setLocation(e.currentTarget.value);
   }
-  
+
   function handleDescriptionChange(e  : ChangeEvent<HTMLInputElement>) {
     setDescription(e.currentTarget.value);
   }

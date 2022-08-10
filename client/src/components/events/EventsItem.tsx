@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { atcb_action } from 'add-to-calendar-button';
 import 'add-to-calendar-button/assets/css/atcb.css';
 import ApiClientService from '../../services/ApiClientService';
 import { useAuth } from '../context/AuthContext';
+import { EventItemProps } from '../../interfaces/event';
 
-function EventsItem({ singleEvent, getUserEvents, setEvents }) {
+function EventsItem({ singleEvent, getUserEvents, setEvents } : EventItemProps) {
   const { currentUser } = useAuth();
-  function submitEvent(e) {
+  function submitEvent(e: FormEvent<HTMLButtonElement>) {
     e.preventDefault();
     atcb_action({
       name: singleEvent.name,
@@ -28,7 +29,7 @@ function EventsItem({ singleEvent, getUserEvents, setEvents }) {
     });
   }
 
-  async function deleteEvent(id, user) {
+  async function deleteEvent(id : string | undefined, user : any) {
     await ApiClientService.deleteEvent(id, user);
     getUserEvents(currentUser);
   }
