@@ -30,10 +30,10 @@ function JobDetails({
 
   const job = jobs.filter((job) => job._id === jobId.id)[0];
 
-  const [data, setData] = useState<Job>(job);
+  const [jobData, setJobData] = useState<Job>(job);
 
   useEffect(() => {
-    setData(() => jobs.filter((job) => job._id === jobId.id)[0]);
+    setJobData(() => jobs.filter((job) => job._id === jobId.id)[0]);
   }, [jobs])
 
   if (!jobs) return <div>Loading</div>;
@@ -43,9 +43,9 @@ function JobDetails({
     event.preventDefault();
 
     const todoData = {
-      ...data,
+      ...jobData,
       todos: [
-        ...data.todos,
+        ...jobData.todos,
         {
           content: todoRef.current.value,
           completed: false,
@@ -61,7 +61,7 @@ function JobDetails({
         return [...prevState.filter((el) => el._id !== newJobId), newJob];
       });
       
-      setData(newJob);
+      setJobData(newJob);
       getUserJobs(currentUser);
     }
 
@@ -70,7 +70,7 @@ function JobDetails({
 
 
   async function deleteTodo(id: String) {
-    const todoData = data.todos;
+    const todoData = jobData.todos;
     const filteredTodo = todoData.map((el => {
       if (el._id === id)
         el.active = false;
@@ -79,7 +79,7 @@ function JobDetails({
     }));
 
     const updatedTodos = {
-      ...data,
+      ...jobData,
       todos: filteredTodo,
     };
 
@@ -91,25 +91,25 @@ function JobDetails({
         return [...prevState.filter((el) => el._id !== newJob._id), newJob];
       });
       
-      setData(newJob);
+      setJobData(newJob);
       getUserJobs(currentUser);
     }
   }
 
   const filteredEvents = events.filter((el) => el.jobId === jobId.id);
 
-  return jobs && data ? (
+  return jobs && jobData ? (
     <div className='job-det-cont'>
       <section className='outline'>
-        <div className={`form-box ${data.color}`}>
+        <div className={`form-box ${jobData.color}`}>
           <JobInfo
             jobs={jobs}
             setJobs={setJobs}
             getUserJobs={getUserJobs}
-            className={data.color}
+            className={jobData.color}
           />
         </div>
-        <div className={`form-box ${data.color}`}>
+        <div className={`form-box ${jobData.color}`}>
           <h2 className='white-text slim'>Tasks</h2>
           <form id='add-task-form' onSubmit={submitTodo}>
             <fieldset>
@@ -132,7 +132,7 @@ function JobDetails({
               <br></br>
             </fieldset>
           </form>
-          {data.todos
+          {jobData.todos
             .filter((task) => task.active)
             .map((task) => {
               return (
@@ -146,7 +146,7 @@ function JobDetails({
         </div>
       </section>
       <section className='outline'>
-        <div className={`form-box ${data.color}`}>
+        <div className={`form-box ${jobData.color}`}>
           <AddEventForm
             events={events}
             getUserEvents={getUserEvents}
@@ -154,7 +154,7 @@ function JobDetails({
             currentUser = {currentUser}
           />
         </div>
-        <div className={`form-box ${data.color}`}>
+        <div className={`form-box ${jobData.color}`}>
           <h2 className='white-text slim margin-bottom'>Upcoming Events</h2>
           {filteredEvents.length ? (
             filteredEvents.map((singleEvent) => (
